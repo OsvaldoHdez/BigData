@@ -34,3 +34,65 @@ def fibTailRecursion(n:Int): Int = {
     }
     return fib_tail(n, 0, 1)
 }
+
+
+/*
+   * Case 4: Memoization
+   * - Substitute number in variable "s" with amount of numbers to print
+   * - Not suitable for big amounts (190 max approx.)
+   */
+  val fib: Stream[BigInt] = 0 #:: 1 #:: fib.zip(fib.tail).map(p => p._1 + p._2)
+
+  def main(args: Array[String]){
+    val s = fib take 135 mkString " "
+    print(s)
+    println()
+    print(fib(130))
+  }
+
+ /*
+   * Case 5 Pisano period
+   * - Get last 6 digits of Fibonacci with tail recursion
+   */
+  
+  def fib5( n : Int) : Int = { 
+    def fib_tail( n: Int, a:Int, b:Int): Int = n match {
+      case 0 => a 
+      case _ => fib_tail( n-1, b, (a+b)%1000000 )
+    }
+    return fib_tail( n%1500000, 0, 1)
+  }
+}
+
+
+//Case 6: divide and conquer
+ 
+def fib6(n :int):Double={
+    if(n<=0){
+        return 0
+    }
+ 
+    var i = n-1
+    var aux1 =0.0
+    var aux2=1.0
+ 
+    var ab=(aux2,aux1)
+    var cd=(aux1,aux2)
+ 
+    while(i>0){
+        if((i%2)!=0){
+            aux1=(cd._2*ab._2)+(cd._1*ab._1)
+            aux2=(cd._2*(ab._2+ab._1)+cd._1*ab._2)
+            ab=(aux1,aux2)
+        }
+ 
+        aux1=pow(cd._1,2)+pow(cd._2,2)
+        aux2=(cd._2*(2*cd._1+cd._2))
+        cd=(aux1,aux2)
+        i=i/2
+    }
+    return (ab._1+ab._2)
+ 
+}
+fib6(10)
+
