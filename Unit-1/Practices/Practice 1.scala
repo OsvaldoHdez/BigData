@@ -30,7 +30,7 @@ println(s"I'm writing a $bird")
  res2: String = Luke
 
 //5. What is the difference between value and a variable in scala?
- The variable val can NOT be modified once its value has been predefined.
+The variable val can NOT be modified once its value has been predefined.
 
 The variable var YES its values can be overwritten, it can be modified. (It can only be overwritten if the data to be entered is the same type of data as the previous one)
  

@@ -7,7 +7,6 @@ def fibRecursion(n: Long): Long = n match {
   case _ => fib1(n - 1) + fib1(n - 2)
 }
 
-
 // Case 2: Loop
 // – Handles Long numbers (64 bit)
 // – A little bit too verbose, non-idiomatic, mutable variables.
@@ -34,7 +33,6 @@ def fibTailRecursion(n:Int): Int = {
     }
     return fib_tail(n, 0, 1)
 }
-
 
 /*
    * Case 4: Memoization
@@ -63,7 +61,6 @@ def fibTailRecursion(n:Int): Int = {
     return fib_tail( n%1500000, 0, 1)
   }
 }
-
 
 //Case 6: divide and conquer
  
@@ -95,4 +92,3 @@ def fib6(n :int):Double={
  
 }
 fib6(10)
-
