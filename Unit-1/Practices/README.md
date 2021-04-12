@@ -26,6 +26,33 @@ def isPrime1(n: Int): Boolean = ! ((2 until n-1) exists (n % _ == 0))
 val bird = "tweet"
 println(s"I'm writing a $bird")
 ```
+#### 4. Given the variable message = "Hello Luke, I am your father!" uses slilce to extract the sequence "Luke"
+
+
+```scala
+ scala> val mensaje = "Hello Luke I am your father!"
+ mensaje: String = Hola Luke yo soy tu padre!
+
+ scala> mensaje.slice (5,9)
+ res2: String = Luke
+```
+#### 5. What is the difference between value and a variable in scala?
+ The variable val can NOT be modified once its value has been predefined.
+
+The variable var YES its values can be overwritten, it can be modified. (It can only be overwritten if the data to be entered is the same type of data as the previous one)
+
+#### 6. Given the tuple (2,4,5,1,2,3,3.1416,23) returns the number 3.1416
+
+```scala
+scala> val tupla = (2,4,5,1,2,3,3.1416,23)
+tupla: (Int, Int, Int, Int, Int, Int, Double, Int) = (2,4,5,1,2,3,3.1416,23)
+
+scala> tupla._7
+res25: Double = 3.1416
+```
+
+
+
 ---
 ## Practice 2
 #### 1. Create a list called "list" with the elements "red", "white", "black".
@@ -45,6 +72,34 @@ list.slice(3,6);
 ```scala
 val array1 = Array.range(1,1000,5); //or range 0-1000
 ``` 
+
+#### 5. What are the unique elements of the list List (1,3,3,4,6,7,3,7) use conversion to sets
+ 
+```scala
+scala> var Lista2 = List(1,3,3,4,6,7,3,7)
+ Lista2: List[Int] = List(1, 3, 3, 4, 6, 7, 3, 7)
+ 
+  scala> Lista2.toSet
+ res8: scala.collection.immutable.Set[Int] = Set(1, 6, 7, 3, 4)
+``` 
+
+#### 6. Create a mutable map named names that contains the following "Jose", 20, "Luis", 24, "Ana", 23, "Susana", "27"
+```scala
+scala> val mutablemap = collection.mutable.Map(("Jose", 20), ("Luis", 24), ("Ana", 23), ("Susana", 27))
+ mutablemap: scala.collection.mutable.Map[String,Int] = Map(Susana -> 27, Ana -> 23, Luis -> 24, Jose -> 20)
+``` 
+ #### 6 a. Print all keys on the map
+
+```scala scala> mutablemap.keys
+ res9: Iterable[String] = Set(Susana, Ana, Luis, Jose)
+``` 
+#### 6 b. Add the following value to the map ("Miguel", 23) 
+```scala 
+ scala> mutablemap += ("Miguel" -> 23)
+ res10: mutablemap.type = Map(Susana -> 27, Ana -> 23, Miguel -> 23, Luis -> 24, Jose -> 20)
+``` 
+
+
 ---
 ## Practice 3 - Fibonacci
 #### 1. Recursion - Pattern Matching
@@ -85,3 +140,67 @@ def fibTailRecursion(n:Int): Int = {
     return fib_tail(n, 0, 1)
 }
 ```
+  #### Case 4: Memoization
+     Substitute number in variable "s" with amount of numbers to print
+     Not suitable for big amounts (190 max approx.)
+   
+ 
+ ```scala
+  val fib: Stream[BigInt] = 0 #:: 1 #:: fib.zip(fib.tail).map(p => p._1 + p._2)
+
+  def main(args: Array[String]){
+    val s = fib take 135 mkString " "
+    print(s)
+    println()
+    print(fib(130))
+  }
+ ```
+   #### Case 5 Pisano period
+    Get last 6 digits of Fibonacci with tail recursion
+   
+   ```scala
+    def fib5( n : Int) : Int = { 
+    def fib_tail( n: Int, a:Int, b:Int): Int = n match {
+      case 0 => a 
+      case _ => fib_tail( n-1, b, (a+b)%1000000 )
+    }
+    return fib_tail( n%1500000, 0, 1)
+  }
+}
+```
+#### Case 6: divide and conquer
+```scala
+def fib6(n :int):Double={
+    if(n<=0){
+        return 0
+    }
+ 
+    var i = n-1
+    var aux1 =0.0
+    var aux2=1.0
+ 
+    var ab=(aux2,aux1)
+    var cd=(aux1,aux2)
+ 
+    while(i>0){
+        if((i%2)!=0){
+            aux1=(cd._2*ab._2)+(cd._1*ab._1)
+            aux2=(cd._2*(ab._2+ab._1)+cd._1*ab._2)
+            ab=(aux1,aux2)
+        }
+ 
+        aux1=pow(cd._1,2)+pow(cd._2,2)
+        aux2=(cd._2*(2*cd._1+cd._2))
+        cd=(aux1,aux2)
+        i=i/2
+    }
+    return (ab._1+ab._2)
+ 
+}
+fib6(10)
+```
+
+  
+ 
+ 
+
