@@ -27,8 +27,6 @@ val bird = "tweet"
 println(s"I'm writing a $bird")
 ```
 #### 4. Given the variable message = "Hello Luke, I am your father!" uses slilce to extract the sequence "Luke"
-
-
 ```scala
  scala> val mensaje = "Hello Luke I am your father!"
  mensaje: String = Hola Luke yo soy tu padre!
@@ -37,10 +35,11 @@ println(s"I'm writing a $bird")
  res2: String = Luke
 ```
 #### 5. What is the difference between value and a variable in scala?
- The variable val can NOT be modified once its value has been predefined.
+```scala
+The variable val can NOT be modified once its value has been predefined.
 
 The variable var YES its values can be overwritten, it can be modified. (It can only be overwritten if the data to be entered is the same type of data as the previous one)
-
+```
 #### 6. Given the tuple (2,4,5,1,2,3,3.1416,23) returns the number 3.1416
 
 ```scala
@@ -50,9 +49,6 @@ tupla: (Int, Int, Int, Int, Int, Int, Double, Int) = (2,4,5,1,2,3,3.1416,23)
 scala> tupla._7
 res25: Double = 3.1416
 ```
-
-
-
 ---
 ## Practice 2
 #### 1. Create a list called "list" with the elements "red", "white", "black".
@@ -102,7 +98,7 @@ scala> val mutablemap = collection.mutable.Map(("Jose", 20), ("Luis", 24), ("Ana
 
 ---
 ## Practice 3 - Fibonacci
-#### 1. Recursion - Pattern Matching
+#### Case 1. Recursion - Pattern Matching
 - Simple and well suited for small numbers, but it doesn’t scale.
 - If 'n' is big, we run the risk of getting a Stack Overflow.
 ```scala
@@ -111,7 +107,7 @@ def fibRecursion(n: Long): Long = n match {
   case _ => fib1(n - 1) + fib1(n - 2)
 }
 ``` 
-#### 2. Loop
+#### Case 2. Loop
 - Handles Long numbers (64 bit).
 - A little bit too verbose, non-idiomatic, mutable variables.
 ```scala
@@ -128,7 +124,7 @@ def fibLoop(n:Long):Long = {
     return first
 }
 ```
-#### 3. Tail Recursion
+#### Case 3. Tail Recursion
 - Optimized by the compiler. We say a function is tail recursive when the recursive call is the last thing executed by the function. 
 - The fib_tail call being applied in the last line of code.
 ```scala
@@ -140,11 +136,9 @@ def fibTailRecursion(n:Int): Int = {
     return fib_tail(n, 0, 1)
 }
 ```
-  #### Case 4: Memoization
-     Substitute number in variable "s" with amount of numbers to print
-     Not suitable for big amounts (190 max approx.)
-   
- 
+#### Case 4: Memoization
+- Substitute number in variable "s" with amount of numbers to print
+- Not suitable for big amounts (190 max approx.)
  ```scala
   val fib: Stream[BigInt] = 0 #:: 1 #:: fib.zip(fib.tail).map(p => p._1 + p._2)
 
@@ -155,10 +149,9 @@ def fibTailRecursion(n:Int): Int = {
     print(fib(130))
   }
  ```
-   #### Case 5 Pisano period
-    Get last 6 digits of Fibonacci with tail recursion
-   
-   ```scala
+#### Case 5 Pisano period   
+- Get last 6 digits of Fibonacci with tail recursion
+```scala
     def fib5( n : Int) : Int = { 
     def fib_tail( n: Int, a:Int, b:Int): Int = n match {
       case 0 => a 
