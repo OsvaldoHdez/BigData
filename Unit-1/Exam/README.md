@@ -1,68 +1,83 @@
-# Exams
----
-## Exam 1
-
-## 1 Start a Spark sesion 
+# Exam U1
+### 1. Start a Spark sesion 
+#### Code
 ```scala
 import org.apache.spark.sql.SparkSession
 val spar = SparkSession.builder()
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/NZFmmNJ/imagen.png"></div></html>
 
-## 2 load the netflix stock CSV, make spark infiere all the data
+### 2. Load the netflix stock CSV, make spark infiere all the data
+#### Code
 ```scala
 val df = spark.read.option("header", "true").option("inferSchema","true")csv("Unit-1/Exam/Files/Netflix_Stock.csv")
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/pzMdQSY/imagen.png"></div></html>
 
-
-
-## 3 wich are the names of the columns
+### 3. ¿Wich are the names of the columns?
+#### Code
 ```scala
 df.show() 
-
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/R7PjDTD/imagen.png"></div></html>
 
-##  4 how is the schema
+
+### 4. ¿How is the schema?
+#### Code
 ```scala
 df.printSchema()
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/3W0tD9X/imagen.png"></div></html>
 
-
-##  5 print the 1st 5 columns
+### 5. Print the 1st 5 columns
+#### Code
 ```scala
 df.head(5)
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/sFmpM5j/imagen.png"></div></html>
 
-
-###  6 use describe () to understand the DataFrame
+### 6. Use describe () to understand the DataFrame
+#### Code
 ```scala
 df.describe().show()
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/12QcrKS/imagen.png"></div></html>
 
-
-###  7 create a new dataframe with a new column called "HV Ratio" that is the relacion between the price on the "High" column in relation to the "Volume" of negociated stocks for one day
+### 7. Create a new dataframe with a new column called "HV Ratio" that is the relacion between the price on the "High" column in relation to the "Volume" of negociated stocks for one day
+#### Code
 ```scala
 val df2 = df.withColumn("HV Ratio", df("High")*df("Volume"))
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/6X01dwf/imagen.png"></div></html>
 
-
-###  8 wich day had the highest peek on the "Close" column
+### 8. ¿Which day had the highest peek on the "Close" column?
+#### Code
 ```scala
 import spark.implicits._
 
 df.select(max("Close")).show()
 df.filter("Close = 707.610001 ").show()
-
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/M5pkv4k/imagen.png"></div></html>
 
-
-###  9 In your own words write a comment on your code. 
-#### What is the meaning of the column "Close"
+### 9. In your own words write a comment on your code. 
+#### ¿What is the meaning of the column "Close"?
 Is the number or amount that the stocks of netflix ended on that day
 
-
-### 10 what is the minimum and maximum of "Volume"
+### 10. ¿What is the minimum and maximum of "Volume"?
+#### Code
 ```scala
 df.select(min("Volume")).show()
 df.select(max("Volume")).show()
-
 ```
+#### Results
+<html><div align="center"><img src="https://i.ibb.co/nCgW74g/imagen.png"></div></html>
+
