@@ -81,3 +81,48 @@ df.select(max("Volume")).show()
 #### Results
 <html><div align="center"><img src="https://i.ibb.co/nCgW74g/imagen.png"></div></html>
 
+### 11. With Scala / Spark $ Syntax, answer the following:
+Hint: Basically very similar to the dates session, you will have to create another dataframe to answer some of the items.
+<html><div align="center"><img src="https://i.ibb.co/JFNps34/imagen.png"></div></html>
+
+1. ¿How many days was the “Close” column less than $ 600? 
+    #### Code
+    ```scala
+    
+    ```
+    #### Results
+    <html><div align="center"><img src="https://i.ibb.co/cY3Sn7F/imagen.png"></div></html>
+
+2. ¿What percentage of the time was the “High” column greater than $ 500?
+    #### Code
+    ```scala
+    
+    ```
+    #### Results
+    <html><div align="center"><img src="https://i.ibb.co/qFLFPss/imagen.png"></div></html>
+
+3. ¿What is the Pearson correlation between column "High" and column "Volume"?
+    #### Code
+    ```scala
+    
+    ```
+    #### Results
+    <html><div align="center"><img src="https://i.ibb.co/tDgKcQq/imagen.png"></div></html>
+
+4. ¿What is the maximum in the “High” column per year?
+    #### Code
+    ```scala
+    
+    ```
+    #### Results
+    <html><div align="center"><img src="https://i.ibb.co/LCZpjyj/imagen.png"></div></html>
+    
+5. ¿What is the “Close” column average for each calendar month? 
+    #### Code
+    ```scala
+    
+    ```
+    #### Results
+    <html><div align="center"><img src="https://i.ibb.co/Tktw2Vv/imagen.png"></div></html>
+
+
