@@ -88,7 +88,8 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 1. ¿How many days was the “Close” column less than $ 600? 
     #### Code
     ```scala
-    
+    df3.filter("Close<600").count()
+
     ```
     #### Results
     <html><div align="center"><img src="https://i.ibb.co/cY3Sn7F/imagen.png"></div></html>
@@ -96,7 +97,7 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 2. ¿What percentage of the time was the “High” column greater than $ 500?
     #### Code
     ```scala
-    
+    (df3.filter("High>500").count()*1.0/df3.count())*100
     ```
     #### Results
     <html><div align="center"><img src="https://i.ibb.co/qFLFPss/imagen.png"></div></html>
@@ -104,7 +105,7 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 3. ¿What is the Pearson correlation between column "High" and column "Volume"?
     #### Code
     ```scala
-    
+    df3.select(corr("High", "Close")).show()
     ```
     #### Results
     <html><div align="center"><img src="https://i.ibb.co/tDgKcQq/imagen.png"></div></html>
@@ -112,7 +113,9 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 4. ¿What is the maximum in the “High” column per year?
     #### Code
     ```scala
-    
+    val years = df3.withColumn("Year",year(df3("Date")))
+    years.select("Year", "High").groupBy("Year").max("High").show()
+
     ```
     #### Results
     <html><div align="center"><img src="https://i.ibb.co/LCZpjyj/imagen.png"></div></html>
@@ -120,7 +123,8 @@ Hint: Basically very similar to the dates session, you will have to create anoth
 5. ¿What is the “Close” column average for each calendar month? 
     #### Code
     ```scala
-    
+    val months = df3.withColumn("Month", month(df3("Date")))
+    months.select("Month", "Close").groupBy("Month").mean("Close").show()
     ```
     #### Results
     <html><div align="center"><img src="https://i.ibb.co/Tktw2Vv/imagen.png"></div></html>
