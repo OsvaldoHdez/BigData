@@ -53,9 +53,10 @@ df.describe().show()
 #### Code
 ```scala
 val df2 = df.withColumn("HV Ratio", df("High")*df("Volume"))
+df2.show() 
 ```
 #### Results
-<html><div align="center"><img src="https://i.ibb.co/6X01dwf/imagen.png"></div></html>
+<html><div align="center"><img src="https://i.ibb.co/BzsBfhG/imagen.png"></div></html>
 
 ### 8. ¿Which day had the highest peek on the "Close" column?
 #### Code

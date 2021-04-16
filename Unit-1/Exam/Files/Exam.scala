@@ -19,6 +19,7 @@ df.describe().show()
 
 // 7. create a new dataframe with a new column called "HV Ratio" that is the relacion between the price on the "High" column in relation to the "Volume" of negociated stocks for one day
 val df2 = df.withColumn("HV Ratio", df("High")*df("Volume"))
+df2.show() 
 
 // 8. wich day had the highest peek on the "Close" column
 import spark.implicits._
