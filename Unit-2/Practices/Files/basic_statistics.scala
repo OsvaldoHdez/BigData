@@ -13,7 +13,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("CorrelationExample").getOrCreate()
 
-// Importación de la conversión implícita para convertir RDDs a DataFrames 
+// Importar de la conversión implícita para convertir RDDs a DataFrames 
 import spark.implicits._
 
 // Creación de vectores densos y dispersos, dentro de una matriz
@@ -51,7 +51,7 @@ import org.apache.spark.ml.stat.ChiSquareTest
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("ChiSquareTestExample").getOrCreate()
 
-// Importación la conversión implícita para convertir RDDs a DataFrames 
+// Importar la conversión implícita para convertir RDDs a DataFrames 
 import spark.implicits._
 
 // Creación de vectores densos
@@ -70,16 +70,29 @@ val df = data.toDF("label", "features")
 // Se toman los primeros valores del dataframe
 val chi = ChiSquareTest.test(df, "features", "label").head
 
+//De inicio con las partes de la prueba, se buscaran los valores de p 
 rintln(s"pValues = ${chi.getAs[Vector](0)}")
+
 //Despues se buscaran los grados de libertad del modelo
 println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}")
+
 //por ultimo se extraeran ciertos valores de un vector dererminado todo en base a la funcion chi cuadrado
 println(s"statistics ${chi.getAs[Vector](2)}")
 
 
 //Summarizer
 
-//importacion de librerias necesarias, en este uso de vectores y el propio summarizer
+// Importación de la librería de para vectores
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// Importación de summarizer
+import org.apache.spark.ml.stat.Summarizer
+
+// Importación y creación de la sesión
+import org.apache.spark.sql.SparkSession
+val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
+
+// Importar la conversión implícita para convertir RDDs a DataFrames y summarizer
 import spark.implicits._    
 import Summarizer._
 
@@ -100,8 +113,8 @@ val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"fea
 println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
 
 //se repite el procesos con 2 nuevas variables 
-val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features"))
-  .as[(Vector, Vector)].first()
+val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features")).as[(Vector, Vector)].first()
+
 // impresión de variables
 println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
 
