@@ -193,19 +193,17 @@ df: org.apache.spark.sql.DataFrame = [label: double, features: vector]
 scala> val chi = ChiSquareTest.test(df, "features", "label").head
 chi: org.apache.spark.sql.Row = [[0.6872892787909721,0.6822703303362126],WrappedArray(2, 3),[0.75,1.5]]
 
-// We take the values of the dataframe
+// 8. We take the values of the dataframe
 println(s"pValues = ${chi.getAs[Vector](0)}")
 pValues = [0.6872892787909721,0.6822703303362126]
 
-//Next we will look for the grade of fredom of the model
+// 9. Next we will look for the grade of fredom of the model
 println(s"degreesOfFreedom ${chi.getSeq[Int](1).mkString("[", ",", "]")}")
 degreesOfFreedom [2,3]
 
-// finally certain values are extracted from a given vector all based on the chi square function
+// 10. Finally certain values are extracted from a given vector all based on the chi square function
 println(s"statistics ${chi.getAs[Vector](2)}")
 statistics [0.75,1.5]
-
-
 ```
 
 ### Summarizer
@@ -215,44 +213,93 @@ The Summarizer method is a good tool for getting various statistics on a new vec
 
 #### Code
 ```scala
-// import of necessary libraries, in this use of vectors and the summarizer itself
+// 1. Importing the vector library 
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// 2. Import summarizer 
+import org.apache.spark.ml.stat.Summarizer
+
+// 3. Session import and creation 
+import org.apache.spark.sql.SparkSession
+val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
+
+// 4. Import of necessary libraries, in this use of vectors and the summarizer itself
 import spark.implicits._    
 import Summarizer._
 
-
-// create a set of vectors or sequence 
+// 5. Create a set of vectors or sequence 
 val data = Seq(
   (Vectors.dense(2.0, 3.0, 5.0), 1.0),
   (Vectors.dense(4.0, 6.0, 7.0), 2.0)
 )
 
+// 6. Creation of the dataframe from the vectors
+val df = data.toDF("features", "weight")
+
+// 7. Use the summarizer library to obtain the mean and variance of some data in the requested dataframe
+val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
+
+// 8. The variables previously worked on are printed
+println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
+
+// 9. The process is repeated with 2 new variables
+val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features")).as[(Vector, Vector)].first()
+
+// 10. Variable printing
+println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
+```
+#### Results
+```scala
+// 1. Importing the vector library 
+scala> import org.apache.spark.ml.linalg.{Vector, Vectors}
+import org.apache.spark.ml.linalg.{Vector, Vectors}
+
+// 2. Import summarizer 
+scala> import org.apache.spark.ml.stat.Summarizer
+import org.apache.spark.ml.stat.Summarizer
+
+// 3. Session import and creation 
+scala> import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.SparkSession
+scala> val spark = SparkSession.builder.appName("SummarizerExample").getOrCreate()
+21/04/29 18:20:37 WARN SparkSession$Builder: Using an existing SparkSession; some spark core configurations may not take effect.
+spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@4b02dc4e
+
+// 4. Import of necessary libraries, in this use of vectors and the summarizer itself
+scala> import spark.implicits._    
+import spark.implicits._
+
+scala> import Summarizer._
+import Summarizer._
+
+// 5. Create a set of vectors or sequence 
+scala> val data = Seq(
+     |   (Vectors.dense(2.0, 3.0, 5.0), 1.0),
+     |   (Vectors.dense(4.0, 6.0, 7.0), 2.0)
+     | )
 data: Seq[(org.apache.spark.ml.linalg.Vector, Double)] = List(([2.0,3.0,5.0],1.0), ([4.0,6.0,7.0],2.0))
 
-// Creation of the dataframe from the vectors
-val df = data.toDF("features", "weight")
+// 6. Creation of the dataframe from the vectors
+scala> val df = data.toDF("features", "weight")
 df: org.apache.spark.sql.DataFrame = [features: vector, weight: double]
 
-// use the summarizer library to obtain the mean and variance of some data in the requested dataframe
-val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
+// 7. Use the summarizer library to obtain the mean and variance of some data in the requested dataframe
+scala> val (meanVal, varianceVal) = df.select(metrics("mean", "variance").summary($"features", $"weight").as("summary")).select("summary.mean", "summary.variance").as[(Vector, Vector)].first()
 meanVal: org.apache.spark.ml.linalg.Vector = [3.333333333333333,5.0,6.333333333333333]
 varianceVal: org.apache.spark.ml.linalg.Vector = [2.0,4.5,2.0]
 
-
-// the variables previously worked on are printed
-
-println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
+// 8. The variables previously worked on are printed
+scala> println(s"with weight: mean = ${meanVal}, variance = ${varianceVal}")
 with weight: mean = [3.333333333333333,5.0,6.333333333333333], variance = [2.0,4.5,2.0]
 
-// the process is repeated with 2 new variables
-val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features"))
-  .as[(Vector, Vector)].first()
-  meanVal2: org.apache.spark.ml.linalg.Vector = [3.0,4.5,6.0]
+// 9. The process is repeated with 2 new variables
+scala> val (meanVal2, varianceVal2) = df.select(mean($"features"), variance($"features")).as[(Vector, Vector)].first()
+meanVal2: org.apache.spark.ml.linalg.Vector = [3.0,4.5,6.0]
 varianceVal2: org.apache.spark.ml.linalg.Vector = [2.0,4.5,2.0]
 
-  
-  // variable printing
-  println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
-  without weight: mean = [3.0,4.5,6.0], sum = [2.0,4.5,2.0]
+// 10. Variable printing
+scala> println(s"without weight: mean = ${meanVal2}, sum = ${varianceVal2}")
+without weight: mean = [3.0,4.5,6.0], sum = [2.0,4.5,2.0]
 ```
 
 
