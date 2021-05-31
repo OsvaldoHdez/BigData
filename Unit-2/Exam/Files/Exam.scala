@@ -4,6 +4,7 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer}
 import org.apache.spark.ml.linalg.Vectors
+import org.apache.spark.ml.Pipeline
 
 // Se importa la sesión
 import org.apache.spark.sql.SparkSession
