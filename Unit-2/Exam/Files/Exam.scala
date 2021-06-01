@@ -33,7 +33,7 @@ dataClean.describe().show()
     // Se transforman los features usando el dataframe
     val features = vectorFeatures.transform(dataClean)
 
-    // Se declara un "StringIndexer" que transformada los datos en "species" en datos numericos
+    // Se declara un "StringIndexer" que transformada los datos de "species" en datos numericos
     val speciesIndexer = new StringIndexer().setInputCol("species").setOutputCol("label")
 
     // Ajustamos las especies indexadas con el vector features
@@ -68,12 +68,10 @@ dataClean.describe().show()
     // Se selecciona la predicción y la etiqueta que seran guardado en la variable
     val predictionAndLabels = result.select("prediction", "label")
 
-    // Ee muestran algunos datos de la predicción contra los reales para ver resultados
+    // Se muestran algunos datos de la predicción contra los reales para ver resultados
     predictionAndLabels.show(50)
     result.show(30)
 
-    // Se ejecuta la estimacion de la precision del modelo
+    // Se ejecuta la estimación de la precisión del modelo
     val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
     println(s"Prueba de precision = ${evaluator.evaluate(predictionAndLabels)}")
-
-
