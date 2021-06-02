@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("MultilayerPerceptronClassifierExample").getOrCreate()
 
 // 1. Cargar en un dataframe Iris.csv
-val data = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("/home/valdo/Documentos/Gitkraken/BigData/Unit-2/Exam/Files/iris.csv")
+val data = spark.read.option("header","true").option("inferSchema", "true").format("csv").load("/iris.csv")
 val dataClean = data.na.drop()
 
 // 2. ¿Cuáles son los nombres de las columnas?
