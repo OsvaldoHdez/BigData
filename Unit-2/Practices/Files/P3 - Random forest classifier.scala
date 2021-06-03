@@ -4,11 +4,12 @@ import org.apache.spark.ml.classification.{RandomForestClassificationModel, Rand
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 
+// Import session
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("RandomForestClassifierExample").getOrCreate()
 
 // Load and parse the data file, converting it to a DataFrame.
- val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
+val data = spark.read.format("libsvm").load("/Files/sample_libsvm_data.txt")
 
 // Index labels, adding metadata to the label column.
 // Fit on whole dataset to include all labels in index.
@@ -25,13 +26,13 @@ val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 val rf = new RandomForestClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures").setNumTrees(10)
 
 // Convert indexed labels back to original labels.
-val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labelsArray(0))
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
 
 // Chain indexers and forest in a Pipeline.
 val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, rf, labelConverter))
 
 // Train model. This also runs the indexers.
- val model = pipeline.fit(trainingData)
+val model = pipeline.fit(trainingData)
 
 // Make predictions.
 val predictions = model.transform(testData)

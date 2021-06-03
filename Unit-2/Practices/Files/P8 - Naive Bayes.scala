@@ -7,7 +7,7 @@ import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("NaiveBayesExample").getOrCreate()
 
 // Load the data stored in LIBSVM format as a DataFrame.
-val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
+val data = spark.read.format("libsvm").load("/Files/sample_libsvm_data.txt")
 
 // Split the data into training and test sets (30% held out for testing)
 val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3), seed = 1234L)

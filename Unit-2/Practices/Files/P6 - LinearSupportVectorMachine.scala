@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("LinearSVCExample").getOrCreate()
 
 // Load the training data. 
-val training = spark.read.format("libsvm").load("/Archivos/sample_libsvm_data.txt")
+val training = spark.read.format("libsvm").load("/Files/sample_libsvm_data.txt")
 
 // Set the maximum number of iterations and the regularization parameter .
 val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)

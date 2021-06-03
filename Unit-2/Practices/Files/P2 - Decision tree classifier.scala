@@ -10,7 +10,7 @@ import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.appName("DecisionTreeClassificationExample").getOrCreate()
 
 // Load the data stored in LIBSVM format as a DataFrame.
-val data = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
+val data = spark.read.format("libsvm").load("/Files/sample_libsvm_data.txt")
 
 // Index labels, adding metadata to the label column.
 // Fit on whole dataset to include all labels in index.
@@ -27,7 +27,7 @@ val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3))
 val dt = new DecisionTreeClassifier().setLabelCol("indexedLabel").setFeaturesCol("indexedFeatures")
 
 // Convert indexed labels back to original labels.
-val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labelsArray(0))
+val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol("predictedLabel").setLabels(labelIndexer.labels)
 
 // Chain indexers and tree in a Pipeline.
 val pipeline = new Pipeline().setStages(Array(labelIndexer, featureIndexer, dt, labelConverter))
