@@ -37,6 +37,6 @@ val model = kmeans.fit(features)
 val WSSSE = model.computeCost(features)
 println(s"Within Set Sum of Squared Errors = $WSSSE")
 
-Print cluster centers
-println("Cluster Centers: ")
-model.clusterCenters.foreach(println)
+    // Print cluster centers
+    println("Cluster Centers: ")
+    model.clusterCenters.foreach(println)
