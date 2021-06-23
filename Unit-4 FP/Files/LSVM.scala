@@ -9,7 +9,7 @@ import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.getOrCreate()
 
 // 3. Load the training data. 
-val data  = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load("/home/valdo/Documentos/Gitkraken/BigData/Unit-4 FP/Files/bank-full.csv")
+val data  = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load("/Files/bank-full.csv")
    
 // 4. Process of categorizing the variables type string to numeric. 
 val yes = data.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
