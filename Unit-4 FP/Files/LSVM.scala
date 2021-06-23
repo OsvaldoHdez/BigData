@@ -3,6 +3,7 @@ import org.apache.spark.ml.classification.LinearSVC
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.mllib.evaluation.MulticlassMetrics
 
 // 2. Import session.
 import org.apache.spark.sql.SparkSession
