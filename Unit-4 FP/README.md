@@ -70,7 +70,7 @@ The objective of this document is to perform a performance comparison of differe
     #### Some applications
     The multilayer perceptron is an example of an artificial neural network that is widely used for solving a number of different problems, including pattern recognition and interpolation.  
 
-### Implementation
+## Implementation
 
 For the implementation, the apache spark tools are used with scala, since Apache Spark is a unified analysis engine for the processing of big data, what we are looking for in the course, with integrated modules for transmission, SQL, machine learning and graphics processing.
 
@@ -326,7 +326,14 @@ println(s"Test Error = ${(1.0 - metrics.accuracy)}")
 
 
   ```
+## Results
+### Accuracy
+Accuracy expressed in percent.
+<html><div align="center"><img src="https://i.ibb.co/b7KP8rs/Screenshot-2021-06-23-at-16-11-34-Libro1-pdf-1.png"></div></html>
 
+### Execution time
+Execution time expressed in seconds. 
+<html><div align="center"><img src="https://i.ibb.co/5jTqCDM/Screenshot-2021-06-23-at-16-13-21-Libro2-pdf-1.png"></div></html>
 
 
 
