@@ -1,16 +1,16 @@
-// Import libraries
-import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.mllib.evaluation.MulticlassMetrics
-import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, VectorIndexer, OneHotEncoder}
-import org.apache.spark.ml.linalg.Vectors
+// 1. Import the "LinearSVC" library, this binary classifier optimizes the hinge loss using the OWLQN optimizer. 
+import org.apache.spark.ml.classification.LinearSVC
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 
-// 2. Import session
+// 2. Import session.
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder.getOrCreate()
 
-// 3. Load the data stored in LIBSVM format as a DataFrame.
+// 3. Load the training data. 
 val data  = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load("/home/valdo/Documentos/Gitkraken/BigData/Unit-4 FP/Files/bank-full.csv")
-
+   
 // 4. Process of categorizing the variables type string to numeric. 
 val yes = data.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
 val no = yes.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
@@ -30,17 +30,32 @@ val dataIndexed = featuresLabel.select("label","features")
 // Index columns
 
 // 10. Split the data into training and test sets (30% held out for testing).
-val Array(trainingData, testData) = dataIndexed.randomSplit(Array(0.7, 0.3))
+val Array(training, test) = dataIndexed.randomSplit(Array(0.7, 0.3))
 
-// 11. Logistic Regression
-val logisticReg = new LogisticRegression().setMaxIter(10).setRegParam(0.3).setElasticNetParam(0.8).setFamily("multinomial")
-val model = logisticReg.fit(trainingData)
-val predictions = model.transform(testData)
+// 11. Set the maximum number of iterations and the regularization parameter .
+val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+
+// 12. Make a fit to adjust the model.
+val supportVM = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+val model = supportVM.fit(training)
+val predictions = model.transform(test)
 val predictionAndLabels = predictions.select($"prediction",$"label").as[(Double, Double)].rdd
 val metrics = new MulticlassMetrics(predictionAndLabels)
 
-// 12. Print results
+// 13. Print LSVC
 println("Confusion matrix:")
 println(metrics.confusionMatrix)
 println("Accuracy: " + metrics.accuracy) 
-println(s"Test Error: ${(1.0 - metrics.accuracy)}")
+println(s"Test Error = ${(1.0 - metrics.accuracy)}")
+
+
+/*
+// 10. Set the maximum number of iterations and the regularization parameter .
+val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+
+// 11. Make a fit to adjust the model.
+val lsvcModel = lsvc.fit(dataIndexed)
+
+// 12. Print the coefficients and intercepts for the Linear SVC.
+println(s"Coefficients: ${lsvcModel.coefficients} Intercept: ${lsvcModel.intercept}")
+*/
