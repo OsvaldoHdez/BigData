@@ -72,5 +72,15 @@ The objective of this document is to perform a performance comparison of differe
 
 ### Implementation
 
+For the implementation, the apache spark tools are used with scala, since Apache Spark is a unified analysis engine for the processing of big data, what we are looking for in the course, with integrated modules for transmission, SQL, machine learning and graphics processing.
 
+By having the aforementioned characteristics, it allows us to carry out everything proposed in this document. In order to have a good analysis of the aforementioned learning algorithms and make a comparison between them.
+
+You will work with the scala programming language because scala combines functional and object-oriented programming in a concise high-level language.
+
+Scala's static types help avoid errors in complex applications, and its JVM and JavaScript runtimes allow you to build high-performance systems with easy access to huge library ecosystems.
+
+As mentioned above, scala helps JVM (Java Virtual Machine) runtimes, this is useful to us since we will make the comparison between different learning algorithms and scala helps us to execute them in a better way.
+
+The implementation is done on a desktop computer with a Linux base operating system, in the source code editor "Visual Code".
 
