@@ -335,6 +335,17 @@ Accuracy expressed in percent.
 Execution time expressed in seconds. 
 <html><div align="center"><img src="https://i.ibb.co/5jTqCDM/Screenshot-2021-06-23-at-16-13-21-Libro2-pdf-1.png"></div></html>
 
+### Observations of the results
+
+As we can see after obtaining the results we see that in terms of average Decision Tree obtains the most favorable results speaking of precision, although not by much difference but in turn it is in the penultimate place in runtime, with Support vector machine being the one with the least time it takes you to perform the calculations.
+
+Each algorithm varies its execution time within 30 executions but never leaving very specific ranges, although each algorithm is created for specific situations, this can give us an example of how efficient they are in various situations.
+
+### Conclusions
+When using the different algorithms, we could see that although they all have a somewhat different workflow, they can show very similar results, the difference in this case varies in seconds and less than 1% in precision in almost the general averages.
+
+I think this work gives us an idea of which algorithm works best for certain situations thinking on a larger scale (a greater number of data), for this situation the best was Decision Tree which leans more for precision over execution time, In the real world, there may be cases where the time in which the results are obtained is above precision, considering that only a minimal percentage is lost.
+
 
 
 
