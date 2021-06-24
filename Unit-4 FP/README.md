@@ -1,15 +1,15 @@
 # Unit-4 Final Project
 ---
 ## Contents
-- ### [Introduction]()
-- ### [Theoretical framework]()
-    - #### [Support Vector Machine]()
-    - #### [Decision Tree]()
-    - #### [Logistic Regression]()
-    - #### [Multilayer Perceptron]()
-- ### [Implementation]()
-- ### [Results]()
-- ### [Conclusions]()
+- ### [Introduction](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#introduction-1)
+- ### [Theoretical framework](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#theoretical-framework-1)
+    - #### [Support Vector Machine](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#support-vector-machine-1)
+    - #### [Decision Tree](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#decision-tree-1)
+    - #### [Logistic Regression](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#logistic-regression-1)
+    - #### [Multilayer Perceptron](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#multilayer-perceptron-1)
+- ### [Implementation](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#implementation-1)
+- ### [Results](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#results-1)
+- ### [Conclusions](https://github.com/OsvaldoHdez/BigData/tree/Unit-4-FP/Unit-4%20FP#conclusions-1)
 ---
 ## Introduction
 The objective of this document is to perform a performance comparison of different classification algorithms, such as Linear Support Vector Machine, Decision Tree, Logistic Regression and Multilayer Perceptron, through apache spark with scala, running the algorithms around thirty times each, in order to make a better performance comparison between each of the machine learning algorithms. 
@@ -88,58 +88,58 @@ The implementation is done on a desktop computer with a Linux base operating sys
 
 - #### Support Vector Machine
 
-```scala
-// 1. Import the "LinearSVC" library, this binary classifier optimizes the hinge loss using the OWLQN optimizer. 
-import org.apache.spark.ml.classification.LinearSVC
-import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
-import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+  ```scala
+  // 1. Import the "LinearSVC" library, this binary classifier optimizes the hinge loss using the OWLQN optimizer. 
+  import org.apache.spark.ml.classification.LinearSVC
+  import org.apache.spark.ml.feature.VectorAssembler
+  import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
+  import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 
-// 2. Import session.
-import org.apache.spark.sql.SparkSession
-val spark = SparkSession.builder.getOrCreate()
+  // 2. Import session.
+  import org.apache.spark.sql.SparkSession
+  val spark = SparkSession.builder.getOrCreate()
 
-// 3. Load the training data. 
-val data  = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load("/Files/bank-full.csv")
-   
-// 4. Process of categorizing the variables type string to numeric. 
-val yes = data.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
-val no = yes.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
-val newcolumn = no.withColumn("y",'y.cast("Int"))
+  // 3. Load the training data. 
+  val data  = spark.read.option("header","true").option("inferSchema", "true").option("delimiter",";").format("csv").load("/Files/bank-full.csv")
+    
+  // 4. Process of categorizing the variables type string to numeric. 
+  val yes = data.withColumn("y",when(col("y").equalTo("yes"),1).otherwise(col("y")))
+  val no = yes.withColumn("y",when(col("y").equalTo("no"),2).otherwise(col("y")))
+  val newcolumn = no.withColumn("y",'y.cast("Int"))
 
-// 5. Vector is created with the column features 
-val assembler = new VectorAssembler().setInputCols(Array("balance","day","duration","pdays","previous")).setOutputCol("features")
+  // 5. Vector is created with the column features 
+  val assembler = new VectorAssembler().setInputCols(Array("balance","day","duration","pdays","previous")).setOutputCol("features")
 
-// 7. Transforms into a new df 
-val data2 = assembler.transform(newcolumn)
+  // 7. Transforms into a new df 
+  val data2 = assembler.transform(newcolumn)
 
-// 8. Column and label are given a new name 
-val featuresLabel = data2.withColumnRenamed("y", "label")
+  // 8. Column and label are given a new name 
+  val featuresLabel = data2.withColumnRenamed("y", "label")
 
-// 9. Select index
-val dataIndexed = featuresLabel.select("label","features")
-// Index columns
+  // 9. Select index
+  val dataIndexed = featuresLabel.select("label","features")
+  // Index columns
 
-// 10. Split the data into training and test sets (30% held out for testing).
-val Array(training, test) = dataIndexed.randomSplit(Array(0.7, 0.3))
+  // 10. Split the data into training and test sets (30% held out for testing).
+  val Array(training, test) = dataIndexed.randomSplit(Array(0.7, 0.3))
 
-// 11. Set the maximum number of iterations and the regularization parameter .
-val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+  // 11. Set the maximum number of iterations and the regularization parameter .
+  val lsvc = new LinearSVC().setMaxIter(10).setRegParam(0.1)
 
-// 12. Make a fit to adjust the model.
-val supportVM = new LinearSVC().setMaxIter(10).setRegParam(0.1)
-val model = supportVM.fit(training)
-val predictions = model.transform(test)
-val predictionAndLabels = predictions.select($"prediction",$"label").as[(Double, Double)].rdd
-val metrics = new MulticlassMetrics(predictionAndLabels)
+  // 12. Make a fit to adjust the model.
+  val supportVM = new LinearSVC().setMaxIter(10).setRegParam(0.1)
+  val model = supportVM.fit(training)
+  val predictions = model.transform(test)
+  val predictionAndLabels = predictions.select($"prediction",$"label").as[(Double, Double)].rdd
+  val metrics = new MulticlassMetrics(predictionAndLabels)
 
-// 13. Print LSVC
-println("Confusion matrix:")
-println(metrics.confusionMatrix)
-println("Accuracy: " + metrics.accuracy) 
-println(s"Test Error = ${(1.0 - metrics.accuracy)}")
+  // 13. Print LSVC
+  println("Confusion matrix:")
+  println(metrics.confusionMatrix)
+  println("Accuracy: " + metrics.accuracy) 
+  println(s"Test Error = ${(1.0 - metrics.accuracy)}")
 
-```
+  ```
 - ### Decison Tree
   ```scala
   // 1. Import libraries
@@ -323,9 +323,8 @@ println(s"Test Error = ${(1.0 - metrics.accuracy)}")
     val predictionAndLabels = result.select("prediction", "label")
     val evaluator = new MulticlassClassificationEvaluator().setMetricName("accuracy")
     println(s"Test set accuracy = ${evaluator.evaluate(predictionAndLabels)}")
-
-
   ```
+
 ## Results
 ### Accuracy
 Accuracy expressed in percent.
@@ -341,62 +340,8 @@ As we can see after obtaining the results we see that in terms of average Decisi
 
 Each algorithm varies its execution time within 30 executions but never leaving very specific ranges, although each algorithm is created for specific situations, this can give us an example of how efficient they are in various situations.
 
-### Conclusions
+## Conclusions
 When using the different algorithms, we could see that although they all have a somewhat different workflow, they can show very similar results, the difference in this case varies in seconds and less than 1% in precision in almost the general averages.
 
 I think this work gives us an idea of which algorithm works best for certain situations thinking on a larger scale (a greater number of data), for this situation the best was Decision Tree which leans more for precision over execution time, In the real world, there may be cases where the time in which the results are obtained is above precision, considering that only a minimal percentage is lost.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
