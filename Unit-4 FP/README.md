@@ -140,7 +140,7 @@ The implementation is done on a desktop computer with a Linux base operating sys
   println(s"Test Error = ${(1.0 - metrics.accuracy)}")
 
   ```
-- ### Decison Tree
+- #### Decison Tree
   ```scala
   // 1. Import libraries
     import org.apache.spark.ml.Pipeline
@@ -214,7 +214,7 @@ The implementation is done on a desktop computer with a Linux base operating sys
 
   ```
 
-- ### Logistic Regression
+- #### Logistic Regression
 
   ```scala
   // Import libraries
@@ -266,7 +266,7 @@ The implementation is done on a desktop computer with a Linux base operating sys
 
   ```
 
-- ### Multilayer Perceptron
+- #### Multilayer Perceptron
 
 
   ```scala
